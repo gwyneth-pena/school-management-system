@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+*{
+    border-box:box-sizing;
+    margin:0;
+    padding:0;
+    font-family: 'Roboto',sans-serif;
+}
+:root{
+  --green-main:#c3f598;
+}
+h1{
+    text-align: center;
+    margin: 20px auto;
+
+
+}
+
+.admin-main-btn{
+    outline:none;
+    padding: 16px 25px;
+
+}
+.error{
+    color:red;
+}
+
+.fas{
+    color:grey;
+
+}
+
+
+table{
+    margin: 0 auto;
+
+}
+th{
+   text-align:center;
+
+}
+
+.funcButton{
+
+  background-color: var(--green-main);
+  color: grey;
+  border:none;
+  padding: 7px 15px;
+  border-radius: 15px;
+
+}
+
+.funcButton:hover{
+ opacity:0.9;
+
+}
+

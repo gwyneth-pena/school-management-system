@@ -14,6 +14,9 @@ public interface SubjectRepository extends JpaRepository<Subject, Integer>{
     List<Subject> findAllSubjects();
     @Query(value = "SELECT * FROM subject s WHERE s.subj_code=:subjCode",nativeQuery = true )
     Subject findSubjectByCode(@Param("subjCode") Integer subjCode);
+    @Query(value = "SELECT * FROM subject s INNER JOIN faculty f ON s.faculty_id=f.faculty_id " +
+            "WHERE s.faculty_id=:facultyId", nativeQuery = true)
+    List<Subject> findSubjectByFaculty(@Param("facultyId") Long facultyId);
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE subject SET subj_title=:subjTitle WHERE subj_code=:subjCode", nativeQuery = true)
     void updateSubjectTitle(@Param("subjCode") Integer subjCode, @Param("subjTitle") String subjTitle);

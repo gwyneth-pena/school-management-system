@@ -34,6 +34,7 @@ public class RegisterLoginController {
         model.addAttribute("adminLogin",new User());
         if(registerLoginService.isAuthenticatedAdmin())return "redirect:/admin";
         if(registerLoginService.isAuthenticatedStudent()) return "redirect:/student";
+        if(registerLoginService.isAuthenticatedFaculty()) return "redirect:/faculty";
         return "adminLogin";
     }
 
@@ -44,6 +45,7 @@ public class RegisterLoginController {
        model.addAttribute("studentLogin",new User());
         if(registerLoginService.isAuthenticatedStudent())return "redirect:/student";
         if(registerLoginService.isAuthenticatedAdmin()) return "redirect:/admin";
+        if(registerLoginService.isAuthenticatedFaculty()) return "redirect:/faculty";
         return "studentLogin";
     }
 
@@ -58,12 +60,32 @@ public class RegisterLoginController {
         return "redirect:/student/login";
     }
 
+    @GetMapping(path = "faculty/logout")
+    public String goBackToFAcultyLogin(){
+        SecurityContextHolder.clearContext();
+        return "redirect:/faculty/login";
+    }
+
     @GetMapping(path="/admin/register")
     public String showRegisterForm(Model model){
         if(registerLoginService.isAuthenticatedAdmin())return "redirect:/admin";
+        if(registerLoginService.isAuthenticatedFaculty())return "redirect:/faculty";
+        if(registerLoginService.isAuthenticatedStudent())return "redirect:/student";
         model.addAttribute("admin",new Admin());
         return "adminRegister";
     }
+
+
+    @GetMapping(path="/faculty/login")
+    public String showFacultyLoginForm(Model model){
+        model.addAttribute("studentLogin",new User());
+        if(registerLoginService.isAuthenticatedStudent())return "redirect:/student";
+        if(registerLoginService.isAuthenticatedAdmin()) return "redirect:/admin";
+        if(registerLoginService.isAuthenticatedFaculty()) return "redirect:/faculty";
+        return "facultyLogin";
+    }
+
+
 
     @PostMapping(path="/admin/register")
     public String addAdmin(@ModelAttribute Admin admin){
@@ -87,6 +109,14 @@ public class RegisterLoginController {
             return "redirect:/student";
         }
         return "redirect:/student/login?error";
+
+    }
+    @PostMapping(path = "/faculty/login")
+    public String validateFacultyLogin(@ModelAttribute User user){
+        if(registerLoginService.validateLogin(user, "ROLE_FACULTY")==" "){
+            return "redirect:/faculty";
+        }
+        return "redirect:/faculty/login?error";
 
     }
 

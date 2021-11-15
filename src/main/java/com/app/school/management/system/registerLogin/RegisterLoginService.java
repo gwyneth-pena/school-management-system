@@ -3,6 +3,8 @@ package com.app.school.management.system.registerLogin;
 
 import com.app.school.management.system.admin.Admin;
 import com.app.school.management.system.admin.AdminRepository;
+import com.app.school.management.system.faculty.Faculty;
+import com.app.school.management.system.faculty.FacultyRepository;
 import com.app.school.management.system.student.Student;
 import com.app.school.management.system.student.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +24,13 @@ public class RegisterLoginService {
 
     private final AdminRepository adminRepo;
     private final StudentRepository studentRepo;
-
-
-
+    private final FacultyRepository facultyRepo;
 
     @Autowired
-    public RegisterLoginService(AdminRepository adminRepo, StudentRepository studentRepo) {
+    public RegisterLoginService(AdminRepository adminRepo, StudentRepository studentRepo, FacultyRepository facultyRepo) {
         this.adminRepo = adminRepo;
         this.studentRepo = studentRepo;
+        this.facultyRepo = facultyRepo;
     }
 
 
@@ -64,6 +65,17 @@ public class RegisterLoginService {
                 return "error";
 
             }
+        }else if(role.equals("ROLE_FACULTY")){
+            Optional<Faculty> faculty = facultyRepo.findFacultyByEmail(user.getEmail());
+            if(faculty.isPresent()&&new BCryptPasswordEncoder().matches(user.getPassword(), faculty.get().getPassword())){
+                authorities.add(new SimpleGrantedAuthority(role));
+                UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword(),authorities);
+                SecurityContextHolder.getContext().setAuthentication(token);
+
+            }else {
+                return "error";
+
+            }
         }
         return " ";
     }
@@ -85,6 +97,15 @@ public class RegisterLoginService {
     public boolean isAuthenticatedStudent(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         boolean hasUserRole = authentication.getAuthorities().stream().anyMatch(r->r.getAuthority().equals("ROLE_STUDENT"));
+
+        if(!hasUserRole||!authentication.isAuthenticated()||authentication==null){
+            return false;
+        }
+        return true;
+    }
+    public boolean isAuthenticatedFaculty(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasUserRole = authentication.getAuthorities().stream().anyMatch(r->r.getAuthority().equals("ROLE_FACULTY"));
 
         if(!hasUserRole||!authentication.isAuthenticated()||authentication==null){
             return false;

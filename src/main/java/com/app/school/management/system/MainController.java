@@ -21,6 +21,7 @@ public class MainController {
     public String showMainPage(){
         if(registerLoginService.isAuthenticatedAdmin())return "redirect:/admin";
         if(registerLoginService.isAuthenticatedStudent())return "redirect:/student";
+        if(registerLoginService.isAuthenticatedFaculty())return "redirect:/faculty";
         return "mainPage";
     }
 

@@ -160,7 +160,11 @@
                             <input type="email" class="form-control" id="email"  th:field="*{email}" required>
 
                         </div>
+                        <div class="mb-2">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="text" class="form-control" id="password"  th:field="*{password}" required>
 
+                        </div>
                         <div class="mb-2">
                             <label for="departmentId" class="form-label">Department Id</label>
                             <select class="form-control" id="departmentId"  th:field="*{department.departmentId}" required>

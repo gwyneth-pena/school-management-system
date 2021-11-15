@@ -35,12 +35,14 @@ public class RegisterLoginService {
 
 
     public void addAdmin(Admin admin){
+
+        admin.setPassword(new BCryptPasswordEncoder().encode(admin.getPassword()));
         adminRepo.save(admin);
     }
 
     public String validateLogin(User user,String role){
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        if(role=="ROLE_ADMIN"){
+        if(role.equals("ROLE_ADMIN")){
             Optional<Admin> admin = adminRepo.findAdminByEmail(user.getEmail());
             if(admin.isPresent()&&new BCryptPasswordEncoder().matches(user.getPassword(), admin.get().getPassword())){
                 authorities.add(new SimpleGrantedAuthority(role));
@@ -51,7 +53,7 @@ public class RegisterLoginService {
                 return "error";
 
             }
-        }else if(role=="ROLE_STUDENT"){
+        }else if(role.equals("ROLE_STUDENT")){
             Optional<Student> student = studentRepo.findStudentByEmail(user.getEmail());
             if(student.isPresent()&&new BCryptPasswordEncoder().matches(user.getPassword(), student.get().getPassword())){
                 authorities.add(new SimpleGrantedAuthority(role));
@@ -75,7 +77,7 @@ public class RegisterLoginService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         boolean hasUserRole = authentication.getAuthorities().stream().anyMatch(r->r.getAuthority().equals("ROLE_ADMIN"));
 
-        if(!hasUserRole||authentication.isAuthenticated()==false||authentication==null){
+        if(!hasUserRole||!authentication.isAuthenticated()||authentication==null){
             return false;
         }
         return true;
@@ -84,7 +86,7 @@ public class RegisterLoginService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         boolean hasUserRole = authentication.getAuthorities().stream().anyMatch(r->r.getAuthority().equals("ROLE_STUDENT"));
 
-        if(!hasUserRole||authentication.isAuthenticated()==false||authentication==null){
+        if(!hasUserRole||!authentication.isAuthenticated()||authentication==null){
             return false;
         }
         return true;

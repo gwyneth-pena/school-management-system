@@ -20,8 +20,11 @@ public interface StudentRepository extends CrudRepository<Student, Long> {
     Optional<Student> findStudentById(@Param("studentId") Long id);
     @Query(value = "SELECT * FROM student s WHERE s.email =:email", nativeQuery = true)
     Optional<Student> findStudentByEmail(@Param("email") String email);
-    @Query(value = "SELECT * from student s WHERE s.course_id=:courseId", nativeQuery = true)
+    @Query(value = "SELECT * FROM student s WHERE s.course_id=:courseId", nativeQuery = true)
     List<Student> findStudentsByCourseId(@Param("courseId") String courseId);
+    @Query(value = "SELECT * FROM student st INNER JOIN student_subject ss ON st.student_id=ss.student_id " +
+            "WHERE ss.subj_code=:subjCode", nativeQuery = true)
+    List<Student> findStudentsBySubject(@Param("subjCode") Integer subjCode);
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE student s SET s.birth_date =:birthDate WHERE s.student_id=:studentId", nativeQuery = true)
     void  updateStudentBirthDate(@Param("studentId") Long studentId , @Param("birthDate") LocalDate birtDate);

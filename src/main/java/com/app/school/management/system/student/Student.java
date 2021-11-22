@@ -3,12 +3,15 @@ package com.app.school.management.system.student;
 
 
 import com.app.school.management.system.course.Course;
+import com.app.school.management.system.subject.Subject;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -35,6 +38,14 @@ public class Student {
     private String email;
     @NotNull(message = "Password should not be empty")
     private String password;
+
+
+    @ManyToMany
+    @JoinTable(name="student_subject", joinColumns = {@JoinColumn(name = "student_id")},
+    inverseJoinColumns = {@JoinColumn(name = "subj_code")})
+    private List<Subject> subjects ;
+
+
 
 
     @ManyToOne
@@ -124,6 +135,14 @@ public class Student {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public List<Subject> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<Subject> subjects) {
+        this.subjects = subjects;
     }
 
     @Override

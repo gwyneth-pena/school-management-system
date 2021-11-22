@@ -7,6 +7,7 @@ import com.app.school.management.system.department.DepartmentRepository;
 import com.app.school.management.system.exception.ApiRequestException;
 import com.app.school.management.system.faculty.Faculty;
 import com.app.school.management.system.faculty.FacultyRepository;
+import com.app.school.management.system.registerLogin.RegisterLoginService;
 import com.app.school.management.system.student.Student;
 import com.app.school.management.system.student.StudentRepository;
 import com.app.school.management.system.subject.Subject;
@@ -30,19 +31,21 @@ public class AdminService {
  private final FacultyRepository facultyRepo;
  private final CourseRepository courseRepo;
  private final DepartmentRepository departmentRepo;
-private final SubjectRepository subjectRepo;
+ private final SubjectRepository subjectRepo;
+
 
  @Autowired
  public AdminService(StudentRepository studentRepo,
                      CourseRepository courseRepo,
                      FacultyRepository facultyRepo,
                      DepartmentRepository departmentRepo,
-                     SubjectRepository subjectRepo ) {
+                     SubjectRepository subjectRepo) {
     this.studentRepo = studentRepo;
     this.facultyRepo = facultyRepo;
     this.courseRepo = courseRepo;
     this.departmentRepo = departmentRepo;
     this.subjectRepo = subjectRepo;
+
 
  }
 
@@ -75,6 +78,7 @@ public List<Faculty> getAllFacultyByDepartment(String departmentId){
 
 
     }
+
 
 
 public void addSubject(Subject subject){

@@ -40,9 +40,7 @@ public class AdminController {
 
     @GetMapping(path = " ")
     public String showAdminDashboard(){
-        if(!registerLoginService.isAuthenticatedAdmin()){
-            return "redirect:/admin/login";
-        }
+        if(!registerLoginService.isAuthenticatedAdmin())return "redirect:/admin/login";
         return "adminDashboard";
     }
 

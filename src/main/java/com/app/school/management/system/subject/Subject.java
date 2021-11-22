@@ -2,12 +2,13 @@ package com.app.school.management.system.subject;
 
 
 import com.app.school.management.system.faculty.Faculty;
+import com.app.school.management.system.student.Student;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -30,6 +31,9 @@ public class Subject {
     @NotNull
     private Faculty faculty;
 
+
+    @ManyToMany(mappedBy = "subjects")
+    private List<Student> students;
 
     public Subject() {
     }
@@ -101,6 +105,13 @@ public class Subject {
         this.faculty = faculty;
     }
 
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
 
     @Override
     public String toString() {

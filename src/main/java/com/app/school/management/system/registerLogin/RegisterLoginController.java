@@ -61,7 +61,7 @@ public class RegisterLoginController {
     }
 
     @GetMapping(path = "faculty/logout")
-    public String goBackToFAcultyLogin(){
+    public String goBackToFacultyLogin(){
         SecurityContextHolder.clearContext();
         return "redirect:/faculty/login";
     }
@@ -78,7 +78,7 @@ public class RegisterLoginController {
 
     @GetMapping(path="/faculty/login")
     public String showFacultyLoginForm(Model model){
-        model.addAttribute("studentLogin",new User());
+        model.addAttribute("facultyLogin",new User());
         if(registerLoginService.isAuthenticatedStudent())return "redirect:/student";
         if(registerLoginService.isAuthenticatedAdmin()) return "redirect:/admin";
         if(registerLoginService.isAuthenticatedFaculty()) return "redirect:/faculty";

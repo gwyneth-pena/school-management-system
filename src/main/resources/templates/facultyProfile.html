@@ -65,15 +65,27 @@
             <h1> My Profile</h1>
             <div>
                 <div>
-                    <h5>Full Name: </h5>
+                    <h5 style="font-weight:bold;">Full Name: </h5>
                     <p th:text="${facultyProfile.firstName}+' '+${facultyProfile.middleName}+' '+${facultyProfile.lastName}"></p>
                 </div>
                 <div>
-                    <h5>Contact Number: </h5>
+                    <h5 style="font-weight:bold;">Department: </h5>
+                    <p th:text="${facultyProfile.department.departmentName}"></p>
+                </div>
+                <div>
+                    <h5 style="font-weight:bold;">Address: </h5>
+                    <p th:text="${facultyProfile.address}"></p>
+                </div>
+                <div>
+                    <h5 style="font-weight:bold;">Birth date: </h5>
+                    <p th:text="${facultyProfile.birthDate}"></p>
+                </div>
+                <div>
+                    <h5 style="font-weight:bold;">Contact Number: </h5>
                     <p th:text="${facultyProfile.contactNumber}"></p>
                 </div>
                 <div>
-                    <h5>Email: </h5>
+                    <h5 style="font-weight:bold;">Email: </h5>
                     <p th:text="${facultyProfile.email}"></p>
                 </div>
             </div>
